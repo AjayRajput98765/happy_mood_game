@@ -1,0 +1,170 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: #fff9f0;
+    color: #333;
+    padding: 2rem;
+}
+
+.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.card-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-button img {
+    width: 160px;
+    height: 220px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+
+.card-button:hover img {
+    transform: scale(1.08);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+}
+
+.card img {
+    width: 150px;
+    height: 200px;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.card img:hover {
+    transform: scale(1.1);
+}
+
+.start-btn {
+    margin-top: 20px;
+    background-color: #ffcc70;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.start-btn:hover {
+    background-color: #f5b94c;
+    transform: scale(1.05);
+}
+
+.advice-box {
+    background: #fff0db;
+    padding: 1.5rem;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 2rem auto;
+    font-size: 1.2rem;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    color: #5d4037;
+}
+
+/* Optional: H1 headers */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #6d4c41;
+}
+
+/* ------------------------- */
+/* Advice Result Page Styles */
+/* ------------------------- */
+
+body.centered {
+    background: linear-gradient(135deg, #fffde7, #fff3e0);
+    color: #5d4037;
+    overflow: hidden;
+    padding: 2rem;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #e65100;
+    animation: popIn 1s ease;
+}
+
+.advice-box {
+    background: #fff8e1;
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 600px;
+    margin: 2rem auto;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #4e342e;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    border: 2px dashed #f9a825;
+    animation: glow 2s infinite alternate;
+}
+
+.start-btn {
+    display: inline-block;
+    margin-top: 30px;
+    background-color: #ffcc70;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+    text-decoration: none;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    animation: bounce 1s infinite;
+}
+
+.start-btn:hover {
+    background-color: #f5b94c;
+    transform: scale(1.05);
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 10px #fdd835; }
+    to { box-shadow: 0 0 20px #fbc02d; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Confetti Animation */
+.confetti {
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    font-size: 1.5rem;
+    animation: float 3s infinite linear;
+}
+
+@keyframes float {
+    0% { top: -30px; opacity: 0; }
+    30% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}

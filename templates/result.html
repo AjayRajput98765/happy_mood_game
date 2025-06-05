@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Advice</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="centered">
+    <div class="confetti">🎉 ✨ 🎊 🌟 💫 🎉 ✨ 🎊 🌟 💫</div>
+    <h1>🎉 Here's Your Happy Advice 🎉</h1>
+    <p class="advice-box">“{{ advice | safe }}”</p>
+    <a href="{{ url_for('cards') }}" class="start-btn">🔁 Pick Another Card</a>
+</body>
+</html>

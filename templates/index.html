@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Happy Mood Card Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="centered">
+    <h1>✨ Welcome to the Happy Mood Card Game ✨</h1>
+    <p>Pick a card and receive a joyful surprise!</p>
+    <a href="{{ url_for('cards') }}" class="start-btn">Start Game</a>
+</body>
+</html>
