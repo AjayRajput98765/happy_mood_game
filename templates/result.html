@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Your Advice</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Power-Up</title>
+
   <style>
     * {
       margin: 0;
@@ -11,217 +13,198 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+      color: #fff;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      color: #ffffff;
-      position: relative;
-      overflow-x: hidden;
-      cursor: pointer;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 25% 25%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 75% 75%, rgba(78, 205, 196, 0.1) 0%, transparent 50%);
-      z-index: -1;
-      animation: backgroundShift 8s ease-in-out infinite alternate;
-    }
-
-    @keyframes backgroundShift {
-      0% { opacity: 0.3; transform: scale(1); }
-      100% { opacity: 0.6; transform: scale(1.1); }
-    }
-
-    h1 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700;
+      justify-content: flex-start;
+      padding: 2rem 1rem;
+      min-height: 100vh;
       text-align: center;
-      margin-bottom: 2rem;
-      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradientMove 3s ease-in-out infinite;
-      text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+      overflow-x: hidden;
     }
 
-    @keyframes gradientMove {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+    #videoSection, #adviceSection {
+      max-width: 400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    #videoSection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: 20px;
+      background-color: #000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .character-msg {
+      font-size: 1.1rem;
+      color: #ffe066;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.7rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(3px);
+      max-width: 90%;
+    }
+
+    #adviceSection {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+      animation: fadeIn 1s ease forwards;
     }
 
     .advice-box {
       background: rgba(30, 30, 45, 0.95);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 25px;
-      padding: 2rem;
-      max-width: 600px;
-      margin: 2rem;
-      font-size: 1.3rem;
-      line-height: 1.7;
-      text-align: center;
-      color: #f0f0f0;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 255, 255, 0.1);
-      animation: popIn 1s ease;
-      position: relative;
-      transition: transform 0.5s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s ease;
     }
 
-    .advice-box:hover {
-      transform: rotate(-1deg) scale(1.02);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(78, 205, 196, 0.2);
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
+    .advice-box.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .start-btn {
-      padding: 1rem 2.5rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s ease;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
       border: none;
       border-radius: 50px;
-      font-weight: bold;
-      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
       text-decoration: none;
       box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-      transition: 0.3s ease;
     }
 
-    .start-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
-      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    .start-btn.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .sparkle {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 30px;
-      height: 30px;
-      background: radial-gradient(circle, #fff 0%, transparent 70%);
-      border-radius: 50%;
-      opacity: 0;
-      animation: sparkle 1s ease forwards;
-    }
-    
-    .character-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 2rem;
-    gap: 1rem;
-    text-align: center;
-    animation: popIn 1s ease;
-    }
-
-    .character-video {
-    width: 350px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    transition: transform 0.4s ease;
-    animation: fadeInGlow 1s ease;
-    }
-
-    .character-video:hover {
-    transform: scale(1.05);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .character-msg {
-    font-size: 1.3rem;
-    color: #ffe066;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.8rem 1.5rem;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(4px);
-    animation: fadeInGlow 1s ease;
-    max-width: 90%;
-    }
-
-    .character-msg:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
-    }
-
-    @keyframes fadeInGlow {
-    0% {
+    @keyframes fadeIn {
+      from {
         opacity: 0;
-        transform: translateY(10px) scale(0.95);
-    }
-    100% {
+        transform: translateY(20px);
+      }
+      to {
         opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-    }
-
-
-
-    @keyframes sparkle {
-      0% { opacity: 1; transform: scale(0.5) translateX(-50%); }
-      100% { opacity: 0; transform: scale(2.5) translateX(-50%); }
+        transform: translateY(0);
+      }
     }
 
-    @media (max-width: 768px) {
+    /* Desktop: shorter video height */
+    @media (min-width: 1024px) {
+      body {
+        justify-content: center;
+        padding: 4rem 2rem;
+      }
+
+      video {
+        height: 450px;
+        width: auto;
+        aspect-ratio: auto;
+        max-width: 100%;
+      }
+
       .advice-box {
-        padding: 1.5rem;
-        font-size: 1.1rem;
+        font-size: 1.3rem;
+        max-width: 600px;
+        padding: 2rem;
       }
 
       .start-btn {
-        padding: 0.8rem 1.5rem;
-        font-size: 1rem;
+        font-size: 1.1rem;
+        padding: 1rem 2.5rem;
+      }
+
+      .character-msg {
+        font-size: 1.2rem;
+        max-width: 400px;
       }
     }
   </style>
 </head>
-<body onclick="sparkSurprise(event)">
+<body>
 
-<div class="character-box">
-  <video autoplay muted loop class="character-video">
-    <source src="{{ url_for('static', filename='videos/' + character_video) }}" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <p class="character-msg">You look like <strong>{{ character_name }}</strong> today! 🎬</p>
-</div>
+  <!-- 🎬 Video + Character -->
+  <div id="videoSection">
+    <video id="characterVideo" autoplay muted playsinline>
+      <source src="{{ url_for('static', filename='videos/' + character_video) }}" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <p class="character-msg">You look like <strong>{{ character_name }}</strong> today! 🎬</p>
+  </div>
 
-  <h1>🌟 Your Power-Up for Today 🌟</h1>
+  <!-- 🌟 Advice -->
+  <div id="adviceSection">
+    <div id="adviceBox" class="advice-box">
+      <h2>🌟 Your Power-Up for Today 🌟</h2>
+      <p>"{{ advice | safe }}"</p>
+    </div>
+    <a href="{{ url_for('cards') }}" id="startBtn" class="start-btn">🔁 Draw Another Card</a>
+  </div>
 
-  <p class="advice-box">"{{ advice | safe }}"</p>
-
-  <a href="{{ url_for('cards') }}" class="start-btn">🔁 Draw Another Card</a>
-
-  <div id="sparkleContainer"></div>
+  <!-- 🔊 Music -->
+  <audio id="bgMusic" src="{{ url_for('static', filename='sounds/advice-music.mp3') }}" preload="auto"></audio>
 
   <script>
-    function sparkSurprise(e) {
-      const sparkle = document.createElement('div');
-      sparkle.className = 'sparkle';
-      sparkle.style.top = `${e.clientY}px`;
-      sparkle.style.left = `${e.clientX}px`;
-      document.getElementById('sparkleContainer').appendChild(sparkle);
-      setTimeout(() => sparkle.remove(), 1000);
-    }
+    const video = document.getElementById('characterVideo');
+    const videoSection = document.getElementById('videoSection');
+    const adviceSection = document.getElementById('adviceSection');
+    const adviceBox = document.getElementById('adviceBox');
+    const startBtn = document.getElementById('startBtn');
+    const bgMusic = document.getElementById('bgMusic');
+
+    video.addEventListener('ended', () => {
+      // Hide video + message
+      videoSection.style.display = 'none';
+
+      // Show advice section
+      adviceSection.style.display = 'flex';
+
+      // Play background music
+      bgMusic.play().catch(() => {});
+
+      // Animate advice + button
+      setTimeout(() => {
+        adviceBox.classList.add('visible');
+        startBtn.classList.add('visible');
+      }, 300);
+    });
+
+    // Fallback if video fails
+    video.addEventListener('error', () => {
+      videoSection.style.display = 'none';
+      adviceSection.style.display = 'flex';
+      adviceBox.classList.add('visible');
+      startBtn.classList.add('visible');
+    });
   </script>
 </body>
 </html>
