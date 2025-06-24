@@ -1,20 +1,799 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Pick Your Happy Card</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick Your Happy Card - Discover Your Joy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background elements */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        .star:nth-child(1) { width: 2px; height: 2px; top: 10%; left: 15%; animation-delay: 0s; }
+        .star:nth-child(2) { width: 3px; height: 3px; top: 20%; right: 20%; animation-delay: 1s; }
+        .star:nth-child(3) { width: 1px; height: 1px; top: 70%; left: 10%; animation-delay: 2s; }
+        .star:nth-child(4) { width: 2px; height: 2px; bottom: 30%; right: 15%; animation-delay: 0.5s; }
+        .star:nth-child(5) { width: 3px; height: 3px; top: 50%; left: 80%; animation-delay: 1.5s; }
+        .star:nth-child(6) { width: 1px; height: 1px; bottom: 20%; left: 70%; animation-delay: 2.5s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+            opacity: 0.1;
+        }
+
+        .particle:nth-child(7) { width: 80px; height: 80px; top: 20%; left: 5%; animation-delay: 0s; }
+        .particle:nth-child(8) { width: 60px; height: 60px; top: 60%; right: 10%; animation-delay: 3s; }
+        .particle:nth-child(9) { width: 100px; height: 100px; bottom: 40%; left: 20%; animation-delay: 6s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-40px) rotate(120deg); }
+            66% { transform: translateY(20px) rotate(240deg); }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 50px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-title {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #a29bfe);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease-in-out infinite;
+            font-weight: bold;
+            text-shadow: 0 0 50px rgba(255, 107, 107, 0.3);
+            line-height: 1.2;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .instruction {
+            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Magic orb */
+        .magic-orb {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ff6b6b, #feca57, #48dbfb);
+            border-radius: 50%;
+            margin: 20px auto;
+            animation: orbPulse 3s ease-in-out infinite;
+            box-shadow: 0 0 50px rgba(255, 107, 107, 0.5);
+            position: relative;
+        }
+
+        .magic-orb::before {
+            content: '✨';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes orbPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 50px rgba(255, 107, 107, 0.5); }
+            50% { transform: scale(1.1); box-shadow: 0 0 80px rgba(255, 107, 107, 0.8); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+            50% { opacity: 0.7; transform: translate(-50%, -50%) rotate(180deg); }
+        }
+
+        /* Card selection form */
+        .card-selection-form {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2.2em;
+            color: #feca57;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 20px rgba(254, 202, 87, 0.3);
+        }
+
+        .section-description {
+            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Card container */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Individual card buttons */
+        .card-button {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            min-height: 280px;
+            transform-style: preserve-3d;
+        }
+
+        .card-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .card-button:hover::before {
+            animation: shine 1.5s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .card-button:hover {
+            transform: translateY(-15px) rotateY(5deg) scale(1.05);
+            border-color: rgba(255, 107, 107, 0.5);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .card-button:active {
+            transform: translateY(-10px) rotateY(2deg) scale(1.02);
+        }
+
+        /* Card content */
+        .card-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Card image placeholder (since we can't use actual images) */
+        .card-image {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card-button:hover .card-image {
+            transform: scale(1.1) rotateY(10deg);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Unique gradients for each card */
+        .card-button:nth-child(1) .card-image { background: linear-gradient(135deg, #ff6b6b, #ee5a52); }
+        .card-button:nth-child(2) .card-image { background: linear-gradient(135deg, #feca57, #ff9f43); }
+        .card-button:nth-child(3) .card-image { background: linear-gradient(135deg, #48dbfb, #0abde3); }
+        .card-button:nth-child(4) .card-image { background: linear-gradient(135deg, #ff9ff3, #f368e0); }
+        .card-button:nth-child(5) .card-image { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
+        .card-button:nth-child(6) .card-image { background: linear-gradient(135deg, #fd79a8, #fdcb6e); }
+
+        .card-label {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Magical effects */
+        .magic-sparkle {
+            position: absolute;
+            color: #feca57;
+            font-size: 20px;
+            animation: magicSparkle 3s infinite;
+            pointer-events: none;
+        }
+
+        .magic-sparkle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .magic-sparkle:nth-child(2) { top: 30%; right: 15%; animation-delay: 1s; }
+        .magic-sparkle:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 2s; }
+        .magic-sparkle:nth-child(4) { bottom: 20%; right: 25%; animation-delay: 0.5s; }
+
+        @keyframes magicSparkle {
+            0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+
+        /* Loading animation overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .loading-subtext {
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Back button */
+        .back-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5em;
+            }
+
+            .card-container {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 20px;
+                padding: 10px;
+            }
+
+            .card-button {
+                min-height: 220px;
+            }
+
+            .card-image {
+                width: 80px;
+                height: 80px;
+                font-size: 2em;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+            }
+
+            .back-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 16px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2em;
+            }
+
+            .card-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .card-button {
+                min-height: 180px;
+            }
+
+            .card-image {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5em;
+            }
+
+            .card-label {
+                font-size: 1em;
+            }
+        }
+
+        /* Card hover sound effect simulation */
+        .card-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.3), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+        }
+
+        .card-button:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Entrance animations */
+        .card-button {
+            animation: cardEntrance 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .card-button:nth-child(1) { animation-delay: 0.1s; }
+        .card-button:nth-child(2) { animation-delay: 0.2s; }
+        .card-button:nth-child(3) { animation-delay: 0.3s; }
+        .card-button:nth-child(4) { animation-delay: 0.4s; }
+        .card-button:nth-child(5) { animation-delay: 0.5s; }
+        .card-button:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes cardEntrance {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body class="card-page">
-    <h1>🃏 Pick a Card to Reveal Your Happy Advice! 🧠✨</h1>
+    <!-- Animated background elements -->
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
 
-    <form method="POST" action="/get_advice">
+    <!-- Magic sparkles -->
+    <div class="magic-sparkle">✨</div>
+    <div class="magic-sparkle">⭐</div>
+    <div class="magic-sparkle">💫</div>
+    <div class="magic-sparkle">✨</div>
+
+    <!-- Back button -->
+    <a href="/" class="back-button">
+        ← Back to Home
+    </a>
+
+    <!-- Header -->
+    <div class="header">
+        <h1 class="main-title">🃏 Pick Your Magical Card 🧠✨</h1>
+        <div class="magic-orb"></div>
+        <p class="subtitle">Trust Your Intuition and Choose Your Path to Joy</p>
+        <p class="instruction">
+            Each card holds a unique message crafted just for you. Let your heart guide you to the perfect card and discover the wisdom that awaits within.
+        </p>
+    </div>
+
+    <!-- Card selection form -->
+    <form method="POST" action="/get_advice" class="card-selection-form">
+        <div class="section-header">
+            <h2 class="section-title">Choose Your Card of Destiny</h2>
+            <p class="section-description">
+                Six magical cards await your selection. Which one calls to your soul?
+            </p>
+        </div>
+
         <div class="card-container">
-            {% for i in range(1, 7) %}
-            <button type="submit" name="card" value="card{{ i }}" class="card-button">
-                <img src="{{ url_for('static', filename='images/' ~ i ~ '.jpg') }}" alt="Card {{ i }}">
+            <button type="submit" name="card" value="card1" class="card-button">
+                <div class="card-content">
+                    <div class="card-number">1</div>
+                    <div class="card-image">🌟</div>
+                    <div class="card-label">Inspiration</div>
+                </div>
             </button>
-            {% endfor %}
+
+            <button type="submit" name="card" value="card2" class="card-button">
+                <div class="card-content">
+                    <div class="card-number">2</div>
+                    <div class="card-image">💖</div>
+                    <div class="card-label">Love & Joy</div>
+                </div>
+            </button>
+
+            <button type="submit" name="card" value="card3" class="card-button">
+                <div class="card-content">
+                    <div class="card-number">3</div>
+                    <div class="card-image">🌈</div>
+                    <div class="card-label">Hope & Dreams</div>
+                </div>
+            </button>
+
+            <button type="submit" name="card" value="card4" class="card-button">
+                <div class="card-content">
+                    <div class="card-number">4</div>
+                    <div class="card-image">🦋</div>
+                    <div class="card-label">Transformation</div>
+                </div>
+            </button>
+
+            <button type="submit" name="card" value="card5" class="card-button">
+                <div class="card-content">
+                    <div class="card-number">5</div>
+                    <div class="card-image">🌺</div>
+                    <div class="card-label">Growth & Wisdom</div>
+                </div>
+            </button>
+
+            <button type="submit" name="card" value="card6" class="card-button">
+                <div class="card-content">
+                    <div class="card-number">6</div>
+                    <div class="card-image">✨</div>
+                    <div class="card-label">Magic & Wonder</div>
+                </div>
+            </button>
         </div>
     </form>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Revealing Your Card...</div>
+            <div class="loading-subtext">The universe is preparing your message</div>
+        </div>
+    </div>
+
+    <script>
+        // Card interaction effects
+        document.querySelectorAll('.card-button').forEach((card, index) => {
+            card.addEventListener('mouseenter', function() {
+                // Add floating effect
+                this.style.animation = 'none';
+                this.style.transform = 'translateY(-15px) rotateY(5deg) scale(1.05)';
+                
+                // Create particle effect
+                createCardParticles(this);
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) rotateY(0deg) scale(1)';
+            });
+
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Show loading overlay
+                document.getElementById('loadingOverlay').classList.add('active');
+                
+                // Add click effect
+                this.style.transform = 'scale(0.95)';
+                
+                // Create ripple effect
+                createRippleEffect(this, e);
+                
+                // Submit form after animation
+                setTimeout(() => {
+                    this.closest('form').submit();
+                }, 1000);
+            });
+        });
+
+        // Create floating particles around hovered cards
+        function createCardParticles(card) {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.style.cssText = `
+                        position: absolute;
+                        width: 6px;
+                        height: 6px;
+                        background: #feca57;
+                        border-radius: 50%;
+                        pointer-events: none;
+                        z-index: 1000;
+                        animation: particleFloat 2s ease-out forwards;
+                    `;
+                    
+                    const rect = card.getBoundingClientRect();
+                    particle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+                    particle.style.top = (rect.top + Math.random() * rect.height) + 'px';
+                    
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 2000);
+                }, i * 100);
+            }
+        }
+
+        // Create ripple effect on card click
+        function createRippleEffect(card, event) {
+            const ripple = document.createElement('span');
+            const rect = card.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.8s linear;
+                pointer-events: none;
+                z-index: 10;
+            `;
+            
+            card.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 800);
+        }
+
+        // Add CSS animations dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleFloat {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-100px) scale(0);
+                }
+            }
+            
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Random sparkle creation
+        setInterval(() => {
+            if (Math.random() > 0.8) {
+                createRandomSparkle();
+            }
+        }, 2000);
+
+        function createRandomSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = ['✨', '⭐', '💫', '🌟'][Math.floor(Math.random() * 4)];
+            sparkle.style.cssText = `
+                position: fixed;
+                font-size: 20px;
+                left: ${Math.random() * window.innerWidth}px;
+                top: ${Math.random() * window.innerHeight}px;
+                pointer-events: none;
+                z-index: 1000;
+                animation: sparkleAppear 3s ease-out forwards;
+            `;
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 3000);
+        }
+
+        const sparkleStyle = document.createElement('style');
+        sparkleStyle.textContent = `
+            @keyframes sparkleAppear {
+                0% {
+                    opacity: 0;
+                    transform: scale(0) rotate(0deg);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1) rotate(180deg);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(sparkleStyle);
+
+        // Page load animation
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Prevent multiple form submissions
+        let formSubmitted = false;
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (formSubmitted) {
+                e.preventDefault();
+                return false;
+            }
+            formSubmitted = true;
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key >= '1' && e.key <= '6') {
+                const cardIndex = parseInt(e.key) - 1;
+                const cards = document.querySelectorAll('.card-button');
+                if (cards[cardIndex]) {
+                    cards[cardIndex].click();
+                }
+            }
+        });
+
+        // Dynamic card glow based on time
+        setInterval(() => {
+            const cards = document.querySelectorAll('.card-button');
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            
+            randomCard.style.boxShadow = '0 25px 50px rgba(255, 107, 107, 0.4), 0 0 30px rgba(255, 107, 107, 0.6)';
+            
+            setTimeout(() => {
+                randomCard.style.boxShadow = '';
+            }, 2000);
+        }, 5000);
+    </script>
 </body>
 </html>
