@@ -1,17 +1,32 @@
 [
-  "🌟 You are capable of amazing things — don't let doubt hold you back.",
-  "🎯 Just start! You don’t need to be perfect, just consistent.",
-  "📚 Read 10 pages a day — it can transform your knowledge over time.",
-  "💡 Learn to say no. It’s a superpower for your focus and peace.",
-  "🥤 Drink water, stretch, and smile — your body will thank you.",
-  "🔍 Be curious. Ask questions. Curiosity creates magic.",
-  "🚀 The best investment is in yourself — skills compound like interest.",
-  "🎨 Do something creative today — draw, write, dance, or build!",
-  "💬 Reach out to a friend randomly and make their day — it makes yours too.",
-  "🎵 Turn on your favorite song and dance for 1 minute — instant mood boost!",
-  "🧠 Learn one shortcut or trick in your favorite app today — small wins!",
-  "📅 Plan just one task tomorrow — it removes chaos from your mind.",
-  "🌈 You’re not behind — you’re on your own path. Trust the process.",
-  "🔋 Take 10 deep breaths — your mind will restart like a computer.",
-  "🧩 Small steps daily > big leaps once in a while. Be steady."
+  {
+    "text": "✨ Artifact Equip: Gratitude Rune — 'Write down one thing you're grateful for. +5 to Resilience and Happiness.'",
+    "character": "Doraemon",
+    "video": "one.mp4"
+  },
+  {
+    "text": "🎲 Bonus Drop: Try Something New — 'Do one new thing. Surprise joy and XP boost possible!'",
+    "character": "Shinchan",
+    "video": "two.mp4"
+  },
+  {
+    "text": "🔋 Spell Cast: Mental Reset — 'Take 10 deep breaths. Mind restarts like a legendary device. Mana refilled.'",
+    "character": "Hattori",
+    "video": "three.mp4"
+  },
+  {
+    "text": "🛡️ Boundary Builder Skill — 'Say no to one distraction. Guard your time. Shield charged.'",
+    "character": "Power Rangers",
+    "video": "four.mp4"
+  },
+  {
+    "text": "💎 Memory Chest: Yesterday’s Win — 'Recall one small win. XP claimed. Motivation bar recharged.'",
+    "character": "Ben 10",
+    "video": "five.mp4"
+  },
+  {
+    "text": "🎵 Instant Buff: One-Minute Dance — 'Turn on your favorite song. Dance for 60 seconds. +10 Mood. +5 Confidence.'",
+    "character": "Tom and Jerry",
+    "video": "six.mp4"
+  }
 ]

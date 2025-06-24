@@ -1,162 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Your Advice</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>Your Advice</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            position: relative;
-            overflow-x: hidden;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      position: relative;
+      overflow-x: hidden;
+      cursor: pointer;
+    }
 
-        /* Animated background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 25% 25%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(78, 205, 196, 0.1) 0%, transparent 50%);
-            z-index: -1;
-            animation: backgroundShift 8s ease-in-out infinite alternate;
-        }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 25% 25%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 75% 75%, rgba(78, 205, 196, 0.1) 0%, transparent 50%);
+      z-index: -1;
+      animation: backgroundShift 8s ease-in-out infinite alternate;
+    }
 
-        @keyframes backgroundShift {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 0.6; transform: scale(1.1); }
-        }
+    @keyframes backgroundShift {
+      0% { opacity: 0.3; transform: scale(1); }
+      100% { opacity: 0.6; transform: scale(1.1); }
+    }
 
-        /* Simple floating confetti */
-        .confetti {
-            position: fixed;
-            top: -10px;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1;
-            font-size: 1.5rem;
-            animation: confettiFloat 10s linear infinite;
-        }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2rem;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientMove 3s ease-in-out infinite;
+      text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+    }
 
-        @keyframes confettiFloat {
-            0% { transform: translateY(-100px); }
-            100% { transform: translateY(100vh); }
-        }
+    @keyframes gradientMove {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
 
-        /* Main heading */
-        h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2rem;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientMove 3s ease-in-out infinite;
-            text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
-        }
+    .advice-box {
+      background: rgba(30, 30, 45, 0.95);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      padding: 2rem;
+      max-width: 600px;
+      margin: 2rem;
+      font-size: 1.3rem;
+      line-height: 1.7;
+      text-align: center;
+      color: #f0f0f0;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 255, 255, 0.1);
+      animation: popIn 1s ease;
+      position: relative;
+      transition: transform 0.5s ease;
+    }
 
-        @keyframes gradientMove {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+    .advice-box:hover {
+      transform: rotate(-1deg) scale(1.02);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(78, 205, 196, 0.2);
+    }
 
-        /* Advice box styling */
-        .advice-box {
-            background: rgba(30, 30, 45, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            max-width: 600px;
-            margin: 2rem;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            text-align: center;
-            color: #f0f0f0;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 20px rgba(255, 107, 107, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
 
-        .advice-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(78, 205, 196, 0.2);
-            border-color: rgba(78, 205, 196, 0.4);
-        }
+    .start-btn {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-decoration: none;
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      transition: 0.3s ease;
+    }
 
-        /* Button styling */
-        .start-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            margin-top: 2rem;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
+    .start-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
 
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        }
+    .sparkle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, #fff 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkle 1s ease forwards;
+    }
+    
+    .character-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+    text-align: center;
+    animation: popIn 1s ease;
+    }
 
-        .start-btn:active {
-            transform: translateY(-1px);
-        }
+    .character-video {
+    width: 350px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s ease;
+    animation: fadeInGlow 1s ease;
+    }
 
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .advice-box {
-                padding: 1.5rem;
-                margin: 1rem;
-                font-size: 1.1rem;
-            }
-            
-            .start-btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-            }
-        }
-    </style>
+    .character-video:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .character-msg {
+    font-size: 1.3rem;
+    color: #ffe066;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    animation: fadeInGlow 1s ease;
+    max-width: 90%;
+    }
+
+    .character-msg:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes fadeInGlow {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    }
+
+
+
+    @keyframes sparkle {
+      0% { opacity: 1; transform: scale(0.5) translateX(-50%); }
+      100% { opacity: 0; transform: scale(2.5) translateX(-50%); }
+    }
+
+    @media (max-width: 768px) {
+      .advice-box {
+        padding: 1.5rem;
+        font-size: 1.1rem;
+      }
+
+      .start-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
-<body>
-    <div class="confetti">🎉 ✨ 🎊 🌟 💫 🎉 ✨ 🎊 🌟 💫</div>
-    
-    <h1>🎉 Here's Your Happy Advice 🎉</h1>
-    
-    <p class="advice-box">"{{ advice | safe }}"</p>
-    
-    <a href="{{ url_for('cards') }}" class="start-btn">🔁 Pick Another Card</a>
+<body onclick="sparkSurprise(event)">
+
+<div class="character-box">
+  <video autoplay muted loop class="character-video">
+    <source src="{{ url_for('static', filename='videos/' + character_video) }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <p class="character-msg">You look like <strong>{{ character_name }}</strong> today! 🎬</p>
+</div>
+
+  <h1>🌟 Your Power-Up for Today 🌟</h1>
+
+  <p class="advice-box">"{{ advice | safe }}"</p>
+
+  <a href="{{ url_for('cards') }}" class="start-btn">🔁 Draw Another Card</a>
+
+  <div id="sparkleContainer"></div>
+
+  <script>
+    function sparkSurprise(e) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.top = `${e.clientY}px`;
+      sparkle.style.left = `${e.clientX}px`;
+      document.getElementById('sparkleContainer').appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 1000);
+    }
+  </script>
 </body>
 </html>

@@ -19,8 +19,16 @@ def cards():
 @app.route('/get_advice', methods=['POST'])
 def get_advice():
     selected_card = request.form.get('card')
-    random_advice = random.choice(advice_list)
-    return render_template('result.html', card=selected_card, advice=random_advice)
+    random_advice_data = random.choice(advice_list)
+
+    return render_template(
+        'result.html',
+        card=selected_card,
+        advice=random_advice_data['text'],
+        character_name=random_advice_data['character'],
+        character_video=random_advice_data['video']
+    )
+
 
 if __name__ == '__main__':
     app.run(debug=True)
